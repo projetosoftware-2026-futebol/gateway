@@ -1,19 +1,64 @@
 services:
   gateway:
-    image: "projetosoftware-2026-futebol/gateway"
+    image: "projetosoftwarefutebol/gateway"
     container_name: gateway
     ports:
       - "80:80"
     networks:
       - network
     environment:
-      CLUBEs_URL: http://user:5000
-      JOGADORES_URL: http://conexoes:5001
+      CLUBES_URL: http://clubes:5000
+      JOGADORES_URL: http://jogadores:5001
       JOGOS_URL: http://jogos:5002
     depends_on:
       - clubes
-      - jogos
       - jogadores
+      - jogos
+    restart: unless-stopped
+
+  clubes:
+    image: "projetosoftwarefutebol/clubes"
+    container_name: clubes
+    ports:
+      - "5000:5000"
+    networks:
+      - network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  jogadores:
+    image: "projetosoftwarefutebol/jogadores"
+    container_name: jogadores
+    ports:
+      - "5000:5001"
+    networks:
+      - network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  jogos:
+    image: "projetosoftwarefutebol/jogos"
+    container_name: jogos
+    ports:
+      - "5000:5002"
+    networks:
+      - network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: football-password
+      MYSQL_DATABASE: football
+    volumes:
+      - data:/var/lib/mysql
+    networks:
+      - network
     restart: unless-stopped
 
 volumes:
