@@ -1,0 +1,26 @@
+services:
+  gateway:
+    image: "projetosoftware-2026-futebol/gateway"
+    container_name: gateway
+    ports:
+      - "80:80"
+    networks:
+      - network
+    environment:
+      CLUBEs_URL: http://user:5000
+      JOGADORES_URL: http://conexoes:5001
+      JOGOS_URL: http://jogos:5002
+    depends_on:
+      - clubes
+      - jogos
+      - jogadores
+    restart: unless-stopped
+
+volumes:
+  data:
+
+networks:
+  network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
