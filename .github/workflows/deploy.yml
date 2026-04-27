@@ -1,12 +1,12 @@
-name: Deploy automatico
+name: Deploy Gateway and application
 
 on:
   push:
     branches: ["main"]
 
 env:
-  DOCKER_IMAGE: projetosoftware-2026-futebol/gateway
-  DOCKER_USER: projetosoftware-2026-futebol
+  DOCKER_IMAGE: projetosoftwarefutebol/gateway
+  DOCKER_USER: projetosoftwarefutebol
 
 jobs:
   build:
