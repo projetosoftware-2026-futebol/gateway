@@ -7,18 +7,18 @@ services:
     networks:
       - network
     environment:
-      CLUBES_URL: http://clubes:5000
-      JOGADORES_URL: http://jogador:5001
+      CLUBE_URL: http://clube:5000
+      JOGADOR_URL: http://jogador:5001
       JOGOS_URL: http://jogos:5002
     depends_on:
-      - clubes
+      - clube
       - jogador
       - jogos
     restart: unless-stopped
 
-  clubes:
-    image: "projetosoftwarefutebol/clubes"
-    container_name: clubes
+  clube:
+    image: "projetosoftwarefutebol/clube"
+    container_name: clube
     ports:
       - "5000:5000"
     networks:
