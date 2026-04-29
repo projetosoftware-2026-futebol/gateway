@@ -2,18 +2,19 @@ CREATE DATABASE IF NOT EXISTS football;
 USE football;
 
 CREATE TABLE jogadores (
-  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(120) NOT NULL,
-  preco INTEGER NOT NULL CHECK (preco > 0),
+  valor INTEGER NOT NULL CHECK (valor > 0),
   rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 100),
   posicao VARCHAR(3) NOT NULL CHECK (
     posicao IN ('ATA', 'PD', 'PE', 'MC', 'LD', 'LE', 'ZAG', 'GOL')
   ),
+  liga VARCHAR(50),
   status VARCHAR(20) NOT NULL DEFAULT 'DISPONIVEL' CHECK (
     status IN ('DISPONIVEL', 'COMPRADO')
   ),
-  liga VARCHAR(100),
-  clube_id INTEGER NULL
+  clube_id INTEGER NULL,
+  PRIMARY KEY (id)
 );
 
 INSERT INTO jogadores (nome, rating, posicao, preco, liga, clube_id, status) VALUES

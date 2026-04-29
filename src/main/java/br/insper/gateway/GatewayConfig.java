@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GatewayConfig {
 
-        @Value("${services.clubes}")
-        private String clubesServiceUrl;
+        @Value("${services.clube}")
+        private String clubeServiceUrl;
 
-        @Value("${services.jogadores}")
-        private String jogadoresServiceUrl;
+        @Value("${services.jogador}")
+        private String jogadorServiceUrl;
 
         @Value("${services.jogos}")
         private String jogosServiceUrl;
@@ -25,14 +25,14 @@ public class GatewayConfig {
                                                 .filters(f -> f
                                                                 .filter(timing.apply(config(true, "jogos-route"))))
                                                 .uri(jogosServiceUrl))
-                                .route("clubes", r -> r.path("/clubes/**")
+                                .route("clube", r -> r.path("/clube/**")
                                                 .filters(f -> f
-                                                                .filter(timing.apply(config(true, "clubes-route"))))
-                                                .uri(clubesServiceUrl))
-                                .route("jogadores", r -> r.path("/jogadores/**")
+                                                                .filter(timing.apply(config(true, "clube-route"))))
+                                                .uri(clubeServiceUrl))
+                                .route("jogador", r -> r.path("/jogador/**")
                                                 .filters(f -> f
-                                                                .filter(timing.apply(config(true, "connection-route"))))
-                                                .uri(jogadoresServiceUrl))
+                                                                .filter(timing.apply(config(true, "jogador-route"))))
+                                                .uri(jogadorServiceUrl))
                                 .build();
         }
 
