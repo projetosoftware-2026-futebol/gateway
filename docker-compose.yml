@@ -25,9 +25,13 @@ services:
       - network
     environment:
       MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
       MYSQL_USER: root
       MYSQL_PASSWORD: football-password
       MYSQL_DATABASE: football
+      CLUBE_URL: http://clube:5000
+      JOGADOR_URL: http://jogador:5001
+      JOGOS_URL: http://jogos:5002
     depends_on:
       - mysql
     restart: unless-stopped
@@ -41,9 +45,13 @@ services:
       - network
     environment:
       MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
       MYSQL_USER: root
       MYSQL_PASSWORD: football-password
       MYSQL_DATABASE: football
+      CLUBE_URL: http://clube:5000
+      JOGADOR_URL: http://jogador:5001
+      JOGOS_URL: http://jogos:5002
     depends_on:
       - mysql
     restart: unless-stopped
@@ -57,9 +65,13 @@ services:
       - network
     environment:
       MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
       MYSQL_USER: root
       MYSQL_PASSWORD: football-password
       MYSQL_DATABASE: football
+      CLUBE_URL: http://clube:5000
+      JOGADOR_URL: http://jogador:5001
+      JOGOS_URL: http://jogos:5002
     depends_on:
       - mysql
     restart: unless-stopped
