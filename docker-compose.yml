@@ -1,6 +1,7 @@
 services:
   gateway:
     image: "projetosoftwarefutebol/gateway"
+    pull_policy: always
     container_name: gateway
     ports:
       - "80:80"
@@ -18,6 +19,7 @@ services:
 
   clube:
     image: "projetosoftwarefutebol/clube"
+    pull_policy: always
     container_name: clube
     ports:
       - "5000:5000"
@@ -33,11 +35,13 @@ services:
       JOGADOR_URL: http://jogador:5001
       JOGOS_URL: http://jogos:5002
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   jogador:
     image: "projetosoftwarefutebol/jogador"
+    pull_policy: always
     container_name: jogador
     ports:
       - "5001:5000"
@@ -53,11 +57,13 @@ services:
       JOGADOR_URL: http://jogador:5001
       JOGOS_URL: http://jogos:5002
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   jogos:
     image: "projetosoftwarefutebol/jogos"
+    pull_policy: always
     container_name: jogos
     ports:
       - "5002:5000"
@@ -73,11 +79,13 @@ services:
       JOGADOR_URL: http://jogador:5001
       JOGOS_URL: http://jogos:5002
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   mysql:
     image: mysql:8.0
+    pull_policy: missing
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: football-password
@@ -87,6 +95,10 @@ services:
       - data:/var/lib/mysql
     networks:
       - network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
     restart: unless-stopped
 
 volumes:
