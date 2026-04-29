@@ -23,6 +23,11 @@ services:
       - "5000:5000"
     networks:
       - network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: football-password
+      MYSQL_DATABASE: football
     depends_on:
       - mysql
     restart: unless-stopped
@@ -34,6 +39,11 @@ services:
       - "5000:5001"
     networks:
       - network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: football-password
+      MYSQL_DATABASE: football
     depends_on:
       - mysql
     restart: unless-stopped
@@ -45,6 +55,11 @@ services:
       - "5000:5002"
     networks:
       - network
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: football-password
+      MYSQL_DATABASE: football
     depends_on:
       - mysql
     restart: unless-stopped
