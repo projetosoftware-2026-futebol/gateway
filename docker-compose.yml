@@ -8,11 +8,11 @@ services:
       - network
     environment:
       CLUBES_URL: http://clubes:5000
-      JOGADORES_URL: http://jogadores:5001
+      JOGADORES_URL: http://jogador:5001
       JOGOS_URL: http://jogos:5002
     depends_on:
       - clubes
-      - jogadores
+      - jogador
       - jogos
     restart: unless-stopped
 
@@ -32,9 +32,9 @@ services:
       - mysql
     restart: unless-stopped
 
-  jogadores:
-    image: "projetosoftwarefutebol/jogadores"
-    container_name: jogadores
+  jogador:
+    image: "projetosoftwarefutebol/jogador"
+    container_name: jogador
     ports:
       - "5000:5001"
     networks:
