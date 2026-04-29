@@ -23,6 +23,7 @@ public class GatewayConfig {
                 return builder.routes()
                                 .route("jogos", r -> r.path("/jogos/**")
                                                 .filters(f -> f
+                                                                .stripPrefix(1)
                                                                 .filter(timing.apply(config(true, "jogos-route"))))
                                                 .uri(jogosServiceUrl))
                                 .route("clube", r -> r.path("/clube/**")
@@ -31,6 +32,7 @@ public class GatewayConfig {
                                                 .uri(clubeServiceUrl))
                                 .route("jogador", r -> r.path("/jogador/**")
                                                 .filters(f -> f
+                                                                .stripPrefix(1)
                                                                 .filter(timing.apply(config(true, "jogador-route"))))
                                                 .uri(jogadorServiceUrl))
                                 .build();
