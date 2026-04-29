@@ -9,8 +9,8 @@ services:
       - network
     environment:
       CLUBE_URL: http://clube:5000
-      JOGADOR_URL: http://jogador:5001
-      JOGOS_URL: http://jogos:5002
+      JOGADOR_URL: http://jogador:5000
+      JOGOS_URL: http://jogos:5000
     depends_on:
       - clube
       - jogador
@@ -21,8 +21,6 @@ services:
     image: "projetosoftwarefutebol/clube"
     pull_policy: always
     container_name: clube
-    ports:
-      - "5000:5000"
     networks:
       - network
     environment:
@@ -32,8 +30,8 @@ services:
       MYSQL_PASSWORD: football-password
       MYSQL_DATABASE: football
       CLUBE_URL: http://clube:5000
-      JOGADOR_URL: http://jogador:5001
-      JOGOS_URL: http://jogos:5002
+      JOGADOR_URL: http://jogador:5000
+      JOGOS_URL: http://jogos:5000
     depends_on:
       mysql:
         condition: service_healthy
@@ -43,8 +41,6 @@ services:
     image: "projetosoftwarefutebol/jogador"
     pull_policy: always
     container_name: jogador
-    ports:
-      - "5001:5000"
     networks:
       - network
     environment:
@@ -54,8 +50,8 @@ services:
       MYSQL_PASSWORD: football-password
       MYSQL_DATABASE: football
       CLUBE_URL: http://clube:5000
-      JOGADOR_URL: http://jogador:5001
-      JOGOS_URL: http://jogos:5002
+      JOGADOR_URL: http://jogador:5000
+      JOGOS_URL: http://jogos:5000
     depends_on:
       mysql:
         condition: service_healthy
@@ -65,8 +61,6 @@ services:
     image: "projetosoftwarefutebol/jogos"
     pull_policy: always
     container_name: jogos
-    ports:
-      - "5002:5000"
     networks:
       - network
     environment:
@@ -76,8 +70,8 @@ services:
       MYSQL_PASSWORD: football-password
       MYSQL_DATABASE: football
       CLUBE_URL: http://clube:5000
-      JOGADOR_URL: http://jogador:5001
-      JOGOS_URL: http://jogos:5002
+      JOGADOR_URL: http://jogador:5000
+      JOGOS_URL: http://jogos:5000
     depends_on:
       mysql:
         condition: service_healthy
