@@ -36,7 +36,7 @@ services:
     image: "projetosoftwarefutebol/jogador"
     container_name: jogador
     ports:
-      - "5000:5001"
+      - "5001:5000"
     networks:
       - network
     environment:
@@ -52,7 +52,7 @@ services:
     image: "projetosoftwarefutebol/jogos"
     container_name: jogos
     ports:
-      - "5000:5002"
+      - "5002:5000"
     networks:
       - network
     environment:
