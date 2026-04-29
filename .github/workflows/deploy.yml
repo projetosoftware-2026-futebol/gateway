@@ -51,13 +51,13 @@ jobs:
             ${{ env.DOCKER_USER }}/${{ env.DOCKER_IMAGE }}:latest
             ${{ env.DOCKER_USER }}/${{ env.DOCKER_IMAGE }}:${{ github.sha }}
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_TEST }}
-          username: ubuntu
-          key: ${{ secrets.KEY_TEST }}
-          port: 22
-          script: |
-            cd /home/ubuntu
-            ./deploy.sh
+      # - name: Deploy via SSH
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST_TEST }}
+      #     username: ubuntu
+      #     key: ${{ secrets.KEY_TEST }}
+      #     port: 22
+      #     script: |
+      #       cd /home/ubuntu
+      #       ./deploy.sh
