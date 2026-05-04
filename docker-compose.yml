@@ -59,7 +59,9 @@ services:
 
   jogos:
     image: "projetosoftwarefutebol/jogos"
-    pull_policy: always
+    build:
+      context: ../jogos
+      dockerfile: Dockerfile
     container_name: jogos
     networks:
       - network
