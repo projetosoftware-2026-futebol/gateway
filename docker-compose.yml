@@ -32,6 +32,8 @@ services:
       CLUBE_URL: http://clube:5000
       JOGADOR_URL: http://jogador:5000
       JOGOS_URL: http://jogos:5000
+      AUTH_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
+      AUTH_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
     depends_on:
       mysql:
         condition: service_healthy
@@ -52,6 +54,8 @@ services:
       CLUBE_URL: http://clube:5000
       JOGADOR_URL: http://jogador:5000
       JOGOS_URL: http://jogos:5000
+      AUTH_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
+      AUTH_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
     depends_on:
       mysql:
         condition: service_healthy
@@ -59,9 +63,7 @@ services:
 
   jogos:
     image: "projetosoftwarefutebol/jogos"
-    build:
-      context: ../jogos
-      dockerfile: Dockerfile
+    pull_policy: always
     container_name: jogos
     networks:
       - network
@@ -74,6 +76,8 @@ services:
       CLUBE_URL: http://clube:5000
       JOGADOR_URL: http://jogador:5000
       JOGOS_URL: http://jogos:5000
+      AUTH_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
+      AUTH_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
     depends_on:
       mysql:
         condition: service_healthy
@@ -93,8 +97,8 @@ services:
       - network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
+      timeout: 10s
+      retries: 3
     restart: unless-stopped
 
 volumes:
