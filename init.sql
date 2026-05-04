@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS jogos (
 CREATE TABLE jogadores (
   id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(120) NOT NULL,
-  preco INTEGER NOT NULL CHECK (preco > 0),
+  valor INTEGER NOT NULL CHECK (valor > 0),
   rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 100),
   posicao VARCHAR(3) NOT NULL CHECK (
     posicao IN ('ATA', 'PD', 'PE', 'MC', 'LD', 'LE', 'ZAG', 'GOL')
@@ -23,7 +23,7 @@ CREATE TABLE jogadores (
   PRIMARY KEY (id)
 );
 
-INSERT INTO jogadores (nome, rating, posicao, preco, liga, clube_id, status) VALUES
+INSERT INTO jogadores (nome, rating, posicao, valor, liga, clube_id, status) VALUES
 ('Mohamed Salah', 91, 'ATA', 95, 'Premier League', NULL, 'DISPONIVEL'),
 ('Erling Haaland', 90, 'ATA', 93, 'Premier League', NULL, 'DISPONIVEL'),
 ('Florian Wirtz', 89, 'MC', 87, 'Premier League', NULL, 'DISPONIVEL'),
