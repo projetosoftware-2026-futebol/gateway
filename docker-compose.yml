@@ -32,8 +32,8 @@ services:
       CLUBE_URL: http://clube:5000
       JOGADOR_URL: http://jogador:5000
       JOGOS_URL: http://jogos:5000
-      AUTH_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
-      AUTH_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
+      AUTH0_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
+      AUTH0_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
     depends_on:
       mysql:
         condition: service_healthy
@@ -54,8 +54,9 @@ services:
       CLUBE_URL: http://clube:5000
       JOGADOR_URL: http://jogador:5000
       JOGOS_URL: http://jogos:5000
-      AUTH_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
-      AUTH_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
+      AUTH0_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
+      AUTH0_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
+      REDIS_URL: redis://redis:6379/0
     depends_on:
       mysql:
         condition: service_healthy
@@ -76,8 +77,8 @@ services:
       CLUBE_URL: http://clube:5000
       JOGADOR_URL: http://jogador:5000
       JOGOS_URL: http://jogos:5000
-      AUTH_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
-      AUTH_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
+      AUTH0_ISSUER: "dev-du32k7rlanetjfu6.us.auth0.com"
+      AUTH0_AUDIENCE: "https://dev-du32k7rlanetjfu6.us.auth0.com/api/v2/"
     depends_on:
       mysql:
         condition: service_healthy
@@ -99,6 +100,14 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 10s
       retries: 3
+    restart: unless-stopped
+  
+  redis:
+    image: redis:8-alpine
+    pull_policy: missing
+    container_name: redis
+    networks:
+      - network
     restart: unless-stopped
 
 volumes:
