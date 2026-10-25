@@ -1,44 +1,66 @@
-# Football Platform API Gateway
+# API Gateway
 
-## Overview
+> [!IMPORTANT]
+> This service acts as the central entry point and reverse proxy for all microservices in the Futebol 2026 platform using Spring Cloud Gateway. Direct access to downstream microservices is restricted.
 
-The **API Gateway** serves as the single entry point for the football management platform ecosystem. It is responsible for request routing, payload validation, authentication verification, and proxying incoming client requests to their respective backend microservices.
+---
+
+## :book: Table of Contents
+
+* [Overview](https://www.google.com/search?q=%23overview)
+* [Architecture & Routing](https://www.google.com/search?q=%23architecture--routing)
+* [Prerequisites](https://www.google.com/search?q=%23prerequisites)
+* [Installation & Setup](https://www.google.com/search?q=%23installation--setup)
+* [Configuration](https://www.google.com/search?q=%23configuration)
+* [Project Roadmap](https://www.google.com/search?q=%23project-roadmap)
+* [Contributing](https://www.google.com/search?q=%23contributing)
+
+---
+
+## :mag: Overview
+
+The **Futebol 2026 API Gateway** routes incoming client requests to appropriate internal Python microservices (Clubs, Players, and Matches). Built with Spring Boot and Spring Cloud Gateway, it provides reactive and non-blocking request handling, filter management, and centralized traffic control.
 
 > [!NOTE]
-> This service abstracts internal service topology from external clients, ensuring secure and centralized traffic management across the entire architecture.
+> All incoming traffic flows through this gateway instance before reaching backend domain nodes.
+
+### Key Features
+
+* **Reactive Routing:** Built on Spring WebFlux for high performance and non-blocking I/O.
+* **Dynamic Predicates:** Seamless path matching and route redirection to backend services.
+* **Filter Integration:** Global and route-specific filters for request modification and header injection.
 
 ---
 
-## Architecture & Core Responsibilities
+## :triangular_ruler: Architecture & Routing
 
-* **Request Routing:** Forwards incoming HTTP requests to downstream services based on URL path prefixes.
-* **Authentication & Authorization:** Validates JSON Web Tokens (JWT) before proxying requests to protected routes.
-* **Rate Limiting & Security:** Protects downstream microservices from denial of service attacks and brute force attempts.
-* **Error Handling:** Provides centralized error logging and standardized error response formats for client applications.
+| Prefix Route | Target Service | Authentication Required | Description |
+| --- | --- | --- | --- |
+| `/api/v1/jogadores` | `jogador-service` | Optional / Gateway Filter | Player management and market transactions |
+| `/api/v1/clubes` | `clube-service` | Optional / Gateway Filter | Club rosters, budgets, and institutional data |
+| `/api/v1/jogos` | `jogos-service` | Optional / Gateway Filter | Match schedules, scores, and fixture results |
 
----
-
-## Tech Stack
-
-* **Language/Runtime:** Node.js / Python *(Update based on your exact implementation)*
-* **Framework:** Express / FastAPI
-* **Containerization:** Docker & Docker Compose
-* **Proxy Middleware:** `http-proxy-middleware` / Reverse proxy configuration
+> [!WARNING]
+> Updating route definitions in `application.yml` requires restarting the gateway instance to apply changes.
 
 ---
 
-## Getting Started
+## :computer: Prerequisites
 
-### Prerequisites
+Ensure you have the following installed on your machine:
 
-Ensure you have the following installed on your local machine:
+* Java JDK 17 or 21
+* Maven (or use the included Maven Wrapper `./mvnw`)
+* Docker & Docker Compose (for containerized deployments)
 
-* Node.js (v18+ recommended) or Python (v3.10+)
-* Docker and Docker Compose
+> [!TIP]
+> Use SDKMAN! or a similar tool to manage Java Development Kit versions smoothly across environments.
 
-### Installation
+---
 
-1. Clone the repository:
+## :rocket: Installation & Setup
+
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/projetosoftware-2026-futebol/gateway.git
 cd gateway
@@ -46,72 +68,58 @@ cd gateway
 ```
 
 
-2. Install dependencies:
+2. **Build the project using Maven:**
 ```bash
-npm install
-# or if using Python:
-pip install -r requirements.txt
+./mvnw clean install
 
 ```
 
 
-3. Configure environment variables:
-Create a `.env` file in the root directory based on the provided template:
-```bash
-cp .env.example .env
+3. **Configure environment variables or application properties:**
+Update downstream service URIs in `src/main/resources/application.yml` or set environment variables:
+```env
+SERVER_PORT=8080
+JOGADOR_SERVICE_URL=http://localhost:8001
+CLUBE_SERVICE_URL=http://localhost:8002
+JOGOS_SERVICE_URL=http://localhost:8003
 
 ```
 
 
-> [!IMPORTANT]
-> Never commit your production `.env` file or secret keys to version control. Ensure all sensitive tokens are securely managed via environment variables.
+4. **Run the application:**
+```bash
+./mvnw spring-boot:run
+
+```
 
 
+
+> [!CAUTION]
+> Do not commit sensitive credentials or production database connections into version control.
 
 ---
 
-## Environment Variables
+## :gear: Configuration
 
-| Variable | Description | Default |
-| --- | --- | --- |
-| `PORT` | Port on which the gateway listens | `3000` |
-| `JWT_SECRET` | Secret key used for validating authorization tokens | `secret_key` |
-| `MATCH_SERVICE_URL` | Base URL for the match management microservice | `http://localhost:3001` |
-| `TEAM_SERVICE_URL` | Base URL for the team and player microservice | `http://localhost:3002` |
+```yaml
+server:
+  port: 8080
 
----
-
-## Running the Application
-
-### Local Development
-
-To run the service in development mode with live reloading:
-
-```bash
-npm run dev
-# or for Python:
-uvicorn main:app --reload
-
-```
-
-### Docker Deployment
-
-To spin up the gateway and its networked dependencies using Docker Compose:
-
-```bash
-docker-compose up --build
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: jogador-service
+          uri: http://localhost:8001
+          predicates:
+            - Path=/api/v1/jogadores/**
+        - id: clube-service
+          uri: http://localhost:8002
+          predicates:
+            - Path=/api/v1/clubes/**
+        - id: jogos-service
+          uri: http://localhost:8003
+          predicates:
+            - Path=/api/v1/jogos/**
 
 ```
-
-> [!WARNING]
-> Ensure that all downstream microservice containers are running and accessible on the Docker network before routing production traffic through the gateway.
-
----
-
-## Routing Reference
-
-| Path Prefix | Target Microservice | Description |
-| --- | --- | --- |
-| `/api/v1/matches` | Match Service | Manages fixtures, scores, and live match events |
-| `/api/v1/teams` | Team Service | Manages club rosters, player statistics, and lineups |
-| `/api/v1/auth` | Auth Service | Handles user login, registration, and token generation |
